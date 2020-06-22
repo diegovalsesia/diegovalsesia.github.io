@@ -1,3 +1,49 @@
+
+Skip to content
+
+    Why GitHub?
+                          
+
+
+                    
+Team
+Enterprise
+Explore
+                      
+
+                    
+Marketplace
+Pricing
+                       
+
+
+                        
+
+Sign in
+Sign up
+DmitryUlyanov /
+dmitryulyanov.github.io
+
+1
+12
+
+    4
+
+Code
+Issues 0
+Pull requests 0
+Actions
+Projects 0
+Security 0
+
+    Insights
+
+Join GitHub today
+
+GitHub is home to over 50 million developers working together to host and review code, manage projects, and build software together.
+dmitryulyanov.github.io/image_compare.html
+@DmitryUlyanov DmitryUlyanov Restoration 1e86c9a on Mar 26, 2018
+356 lines (280 sloc) 14.5 KB
 ---
 permalink: /image_compare.html
 ---
@@ -56,7 +102,7 @@ permalink: /image_compare.html
 
     <div class="row center">
       <div class="center">
-        <img class="img-responsive1 demo-img shadow" name="demo-img" id="img-bicubic" src="" onresize="sendHeight()" onerror="this.src='/assets/speckle2void/NA.jpg'">
+        <img class="img-responsive1 demo-img shadow" name="demo-img" id="img-bicubic" src="" onresize="sendHeight()" onerror="this.src='/assets/deep-image-prior/NA.jpg'">
         <div class="subtitle" id="img-caption"></div>
       </div>
 
@@ -69,23 +115,76 @@ permalink: /image_compare.html
   <script src="zepto.min.js"></script>
   <script>
         var task_dict = { 
-                          Denoising: {
+                          SR: {
                                 datasets: {
-                                  TerraSAR-X: ["Image 1", "Image 2", "Image 3", "Image 4", "Image 5"],
+                                    Set5: ['butterfly', 'baby', 'bird', 'head', 'woman'],
+                                    Set14: ["zebra", "flowers", "baboon", "barbara", "bridge", "coastguard", "comic", "face",  "foreman", "lenna", "man", "monarch", "pepper", "ppt3"]
                                 },
                                 methods: {
-                                  'single-look':  [
-                                    {id:"1 noisy",        text:"1. Noisy"},
-                                    {id:"2 ppb",          text:"2. Corrupted"},
-                                    {id:"3 bm3d",         text:"3. BM3D"},
-                                    {id:"4 baseline",     text:"4. Supervised Baseline"},
-                                    {id:"5 idcnn",        text:"5. Supervised ID-CNN"}
-                                    {id:"6 Speckle2Void", text:"6. Speckle2Void"}
-                                    {id:"7 Speckle2VoidNL", text:"7. Speckle2Void NL"}
-                                  ],
+                                    
+                                    x4: [
+                                      {id:"1 GT",       text:"<span class=\"method-tagg gt\">1. Ground Truth</span>"},
+                                      {id:"2 bicubic",  text:"<span class=\"method-tagg notlearned\">2. Bicubic</span>"},
+                                      {id:"3 glasner",   text:"<span class=\"method-tagg notlearned\">3. Glasner et al.</span>"},
+                                      {id:"4 no_prior",  text:"<span class=\"method-tagg notlearned\">4. No prior</span>"},
+                                      {id:"5 tv_prior",  text:"<span class=\"method-tagg notlearned\">5. TV prior</span>"},
+                                      {id:"6 deep_prior",  text:"<span class=\"method-tagg notlearned ours\">6. Deep prior (ours)</span>"},
+                                      {id:"7 LapSRN",   text:"<span class=\"method-tagg learned tooltipped\" data-position=\"right\" data-delay=\"00\" data-tooltip=\"Learned\">7. LapSRN<sup>*</sup></span>"},
+                                      {id:"8 SRResNet-MSE",   text:"<span class=\"method-tagg learned tooltipped\" data-position=\"right\" data-delay=\"00\" data-tooltip=\"Learned\">8. SRResNet-MSE<sup>*</sup></span>"},
+                                      ],
+                                    x8: [
+                                      {id:"1 GT",       text:"<span class=\"method-tagg gt\">1. Ground Truth</span>"},
+                                      {id:"2 bicubic",  text:"<span class=\"method-tagg notlearned\">2. Bicubic</span>"},
+                                      {id:"3 SelfExSR",   text:"<span class=\"method-tagg notlearned\">3. SelfExSR</span>"},
+                                      {id:"4 no_prior",  text:"<span class=\"method-tagg notlearned\">4. No prior</span>"},
+                                      {id:"5 tv_prior",  text:"<span class=\"method-tagg notlearned\">5. TV prior</span>"},
+                                      
+                                      {id:"6 deep_prior_003",   text:"<span class=\"method-tagg learned tooltipped\" data-position=\"bottom\" data-delay=\"00\" data-tooltip=\"Noise regularization=0.03\">6. Deep prior<sup>1</sup></span>"},
+                                      
+                                      {id:"7 deep_prior_005",   text:"<span class=\"method-tagg notlearned tooltipped ours\" data-position=\"bottom\" data-delay=\"00\" data-tooltip=\"Noise regularization=0.05\">7. Deep prior<sup>2</sup></span>"},
+                                      
+                                      {id:"8 LapSRN",   text:"<span class=\"method-tagg learned tooltipped\" data-position=\"right\" data-delay=\"00\" data-tooltip=\"Learned\">8. LapSRN<sup>*</sup></span>"},
+                                      ]
                                 },
-                                variants: ['single-look']
+                                variants: ['x4', 'x8']
+                              },
+                          Denoising: {
+                                datasets: {
+                                  Color: ["F16", "hill", "peppers", "kodim02", "kodim12", "baboon", "lena", "kodim01", "kodim03"],
+                                },
+                                methods: {
+                                  '25':  [
+                                    {id:"1 GT",         text:"1. Original"},
+                                    {id:"2 noisy",      text:"2. Corrupted"},
+                                    {id:"3 bm3d",       text:"3. BM3D"},
+                                    {id:"4 nlm",        text:"4. NLM"},
+                                    {id:"5 deep_prior", text:"<span class=\"method-tagg notlearned ours\">5. Deep prior (ours)</span>"}
+                                  ],
+                                  '50': [
+                                    {id:"1 GT",         text:"1. Original"},
+                                    {id:"2 noisy",      text:"2. Corrupted"},
+                                    {id:"3 bm3d",       text:"3. BM3D"},
+                                    {id:"4 nlm",        text:"4. NLM"},
+                                    {id:"5 deep_prior", text:"<span class=\"method-tagg notlearned ours\">5. Deep prior (ours)</span>"}
+                                  ]
+                                },
+                                variants: ['25', '50']
                           },
+                          Reconstruction: {
+                                  datasets: {
+                                    Gray: ["barbara", "boat", "Cameraman256", "couple", "fingerprint", "hill", "house", "Lena512", "man", "montage", "peppers256"],
+                                  },
+                                methods: {
+                                    '50p': [
+                                        {id:"1 GT",         text:"1. Original"},
+                                        {id:"2 masked",     text:"2. Corrupted"},
+                                        {id:"3 voronoi",    text:"3. Voronoi"},
+                                        {id:"4 papyan",     text:"4. Papyan et al."},
+                                        {id:"5 deep_prior", text:"<span class=\"method-tagg notlearned ours\">5. Deep prior (ours)</span>"}
+                                    ]
+                                },
+                                variants: ['50p']
+                          }
                         };
 
       function fill_methods_select(methods) {
@@ -186,7 +285,7 @@ permalink: /image_compare.html
         var selected_img     = fill_imgs_select(task_dict[selected_task].datasets[selected_dataset]);
         var selected_method = fill_methods_select(task_dict[selected_task].methods[selected_variant]);
 
-        change_method('1 noisy');
+        change_method('1 GT');
         $('select').material_select();
         $('.tooltipped').tooltip({delay: 0});
         // sendHeight();
@@ -244,7 +343,7 @@ permalink: /image_compare.html
 
         var img = document.getElementsByName("demo-img")[0];
         var filename = name + "_" + method;
-        img.src = "/assets/speckle2void/" + "/" + dataset + "/" + variant + "/" + filename + ".png";
+        img.src = "/assets/deep-image-prior/" + task + "/" + dataset + "/" + variant + "/" + filename + ".png";
         img.id = "img-" + method_;
 
         // Caption
@@ -301,3 +400,18 @@ permalink: /image_compare.html
 
   </body>
 </html>
+
+    © 2020 GitHub, Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    Pricing
+    API
+    Training
+    Blog
+    About
+
