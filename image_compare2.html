@@ -1,3 +1,49 @@
+
+Skip to content
+
+    Why GitHub?
+                          
+
+
+                    
+Team
+Enterprise
+Explore
+                      
+
+                    
+Marketplace
+Pricing
+                       
+
+
+                        
+
+Sign in
+Sign up
+DmitryUlyanov /
+dmitryulyanov.github.io
+
+1
+12
+
+    4
+
+Code
+Issues 0
+Pull requests 0
+Actions
+Projects 0
+Security 0
+
+    Insights
+
+Join GitHub today
+
+GitHub is home to over 50 million developers working together to host and review code, manage projects, and build software together.
+dmitryulyanov.github.io/image_compare.html
+@DmitryUlyanov DmitryUlyanov Restoration 1e86c9a on Mar 26, 2018
+356 lines (280 sloc) 14.5 KB
 ---
 permalink: /image_compare.html
 ---
@@ -69,23 +115,23 @@ permalink: /image_compare.html
   <script src="zepto.min.js"></script>
   <script>
         var task_dict = { 
+
                           Denoising: {
                                 datasets: {
-                                  TerraSARX: ["Image1", "Image2", "Image3", "Image4", "Image5"],
+                                  Color: ["F16", "hill", "peppers", "kodim02", "kodim12", "baboon", "lena", "kodim01", "kodim03"],
                                 },
                                 methods: {
-                                  'singlelook':  [
-                                    {id:"1 noisy",        text:"1. Noisy"},
-                                    {id:"2 ppb",          text:"2. PPB"},
-                                    {id:"3 bm3d",         text:"3. SAR-BM3D"},
-                                    {id:"4 cnn_baseline",     text:"4. Supervised CNN Baseline"},
-                                    {id:"5 idcnn",        text:"5. Supervised ID-CNN"},
-                                    {id:"6 Speckle2Void", text:"6. Speckle2Void"},
-                                    {id:"7 Speckle2VoidNL", text:"7. Speckle2Void NL"}
+                                  '25':  [
+                                    {id:"1 GT",         text:"1. Original"},
+                                    {id:"2 noisy",      text:"2. Corrupted"},
+                                    {id:"3 bm3d",       text:"3. BM3D"},
+                                    {id:"4 nlm",        text:"4. NLM"},
+                                    {id:"5 deep_prior", text:"<span class=\"method-tagg notlearned ours\">5. Deep prior (ours)</span>"}
                                   ]
                                 },
-                                variants: ['singlelook']
+                                variants: ['25']
                           },
+
                         };
 
       function fill_methods_select(methods) {
@@ -186,7 +232,7 @@ permalink: /image_compare.html
         var selected_img     = fill_imgs_select(task_dict[selected_task].datasets[selected_dataset]);
         var selected_method = fill_methods_select(task_dict[selected_task].methods[selected_variant]);
 
-        change_method('1 noisy');
+        change_method('1 GT');
         $('select').material_select();
         $('.tooltipped').tooltip({delay: 0});
         // sendHeight();
@@ -243,8 +289,8 @@ permalink: /image_compare.html
         var name = x.options[i].value;
 
         var img = document.getElementsByName("demo-img")[0];
-        var filename = i + "-" + method;
-        img.src = "/assets/speckle2void/" + dataset + "/" + filename + ".png";
+        var filename = name + "_" + method;
+        img.src = "/assets/deep-image-prior/" + task + "/" + dataset + "/" + variant + "/" + filename + ".png";
         img.id = "img-" + method_;
 
         // Caption
@@ -301,3 +347,18 @@ permalink: /image_compare.html
 
   </body>
 </html>
+
+    © 2020 GitHub, Inc.
+    Terms
+    Privacy
+    Security
+    Status
+    Help
+
+    Contact GitHub
+    Pricing
+    API
+    Training
+    Blog
+    About
+
