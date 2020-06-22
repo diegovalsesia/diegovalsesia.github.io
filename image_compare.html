@@ -20,12 +20,6 @@ permalink: /image_compare.html
 
     <div class="row center">
 
-      <div class="input-field col col-centered mmw">
-        <select id="tasks" onchange="change_task()">
-          <!-- FILLED WITH JS -->
-        </select>
-        <label class="select_label">Problem</label>
-      </div>
 
       <div class="input-field col col-centered mmw">
         <select id="datasets" onchange="change_dataset()">
@@ -38,7 +32,7 @@ permalink: /image_compare.html
         <select id="variants" onchange="change_variant()">
             <!-- FILLED WITH JS -->
         </select>
-        <label class="select_label">Scale/Sigma</label>
+        <label class="select_label">Looks</label>
       </div>
 
       <div class="input-field col col-centered mmw">
@@ -77,7 +71,7 @@ permalink: /image_compare.html
                                   'singlelook':  [
                                     {id:"1 noisy",        text:"1. Noisy"},
                                     {id:"2 ppb",          text:"2. PPB"},
-                                    {id:"3 bm3d",         text:"3. SAR-BM3D"},
+                                    {id:"3 sarbm3d",         text:"3. SAR-BM3D"},
                                     {id:"4 cnn_baseline",     text:"4. Supervised CNN Baseline"},
                                     {id:"5 idcnn",        text:"5. Supervised ID-CNN"},
                                     {id:"6 Speckle2Void", text:"6. Speckle2Void"},
@@ -150,33 +144,20 @@ permalink: /image_compare.html
       }
 
       function fill_tasks_select(tasks) {
-        $("[id='tasks']").empty();
-        var sel = document.getElementById("tasks");
-        for (i = 0; i < tasks.length; i++) { 
-            var opt=document.createElement("option");
-            opt.value = tasks[i];
-            opt.innerHTML = tasks[i];
-            
-            sel.appendChild(opt);
-        }
-        sel.selectedIndex = 0;
 
-        return tasks[0];
+        return "Denoising";
       }
 
       function change_task() {
-        var x = document.getElementById("tasks");
-        var i = x.selectedIndex;
-        var selected_task = x.options[i].value;
 
-        fill_datasets_select(Object.keys(task_dict[selected_task].datasets));
+        fill_datasets_select(Object.keys(task_dict["Denoising"].datasets));
         change_dataset();
       }
 
+
       function change_dataset() {
-        var x = document.getElementById("tasks");
-        var i = x.selectedIndex;
-        var selected_task = x.options[i].value;
+
+        var selected_task = "Denoising";
 
         var x = document.getElementById("datasets");
         var i = x.selectedIndex;
@@ -197,9 +178,7 @@ permalink: /image_compare.html
     var idx_to_key = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '+', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '\\', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/']
 
     function change_variant() {
-        var x = document.getElementById("tasks");
-        var i = x.selectedIndex;
-        var selected_task = x.options[i].value;
+ 		var selected_task = "Denoising";
 
         x = document.getElementById("datasets");
         i = x.selectedIndex;
@@ -214,7 +193,6 @@ permalink: /image_compare.html
         var selected_method = fill_methods_select(task_dict[selected_task].methods[selected_variant]);
 
 
-
         var img = document.getElementsByName("demo-img")[0];
         var method = img.id.split("-")[1];
         change_method(method);
@@ -225,10 +203,6 @@ permalink: /image_compare.html
         var s = method_.split(' ');
         var method_idx = s[0];
         var method = s[1];
-
-        var x = document.getElementById("tasks");
-        var i = x.selectedIndex;
-        var task = x.options[i].value;
 
         x = document.getElementById("datasets");
         i = x.selectedIndex;
